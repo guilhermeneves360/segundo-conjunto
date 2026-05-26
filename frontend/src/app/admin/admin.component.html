@@ -1,0 +1,33 @@
+<div class="toolbar">
+  <div>
+    <h1>Admin</h1>
+    <p class="muted">{{ 'ADMIN_SUBTITLE' | translate }}</p>
+  </div>
+  <button type="button" (click)="exportTrips()">{{ 'EXPORT_PDF' | translate }}</button>
+</div>
+
+<div class="card">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Email</th>
+        <th>Tipo</th>
+        <th>{{ 'ACTIONS' | translate }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.name }}</td>
+        <td>{{ user.email }}</td>
+        <td>
+          <select [value]="user.type" (change)="changeType(user, $any($event.target).value)">
+            <option value="user">Utilizador</option>
+            <option value="admin">Admin</option>
+          </select>
+        </td>
+        <td><button type="button" class="danger" (click)="remove(user.id)">{{ 'DELETE' | translate }}</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,45 @@
+<div class="toolbar">
+  <div>
+    <h1>{{ 'DASHBOARD' | translate }}</h1>
+    <p class="muted">{{ 'DASHBOARD_SUBTITLE' | translate }}</p>
+  </div>
+</div>
+
+<div class="grid grid-4">
+  <div class="card stat">
+    <span class="muted">{{ 'TRIPS' | translate }}</span>
+    <strong>{{ stats.trips }}</strong>
+  </div>
+  <div class="card stat">
+    <span class="muted">{{ 'BUDGET' | translate }}</span>
+    <strong>{{ stats.budget | currency:'BRL' }}</strong>
+  </div>
+  <div class="card stat">
+    <span class="muted">{{ 'EXPENSES' | translate }}</span>
+    <strong>{{ stats.expenses | currency:'BRL' }}</strong>
+  </div>
+  <div class="card stat">
+    <span class="muted">{{ 'RESERVATIONS' | translate }}</span>
+    <strong>{{ stats.reservations }}</strong>
+  </div>
+</div>
+
+<div class="card" style="margin-top:16px;">
+  <h3>{{ 'RECENT_TRIPS' | translate }}</h3>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>{{ 'DESTINATION' | translate }}</th>
+        <th>{{ 'DATES' | translate }}</th>
+        <th>{{ 'BUDGET' | translate }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let trip of trips">
+        <td>{{ trip.destination }}</td>
+        <td>{{ trip.start_date }} - {{ trip.end_date }}</td>
+        <td>{{ trip.budget | currency:'BRL' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

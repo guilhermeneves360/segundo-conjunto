@@ -1,0 +1,67 @@
+<div class="toolbar">
+  <div>
+    <h1>{{ 'PLANNING' | translate }}</h1>
+    <p class="muted">{{ 'PLANNING_SUBTITLE' | translate }}</p>
+  </div>
+  <button type="button" class="secondary" (click)="exportCsv()">{{ 'EXPORT_CSV' | translate }}</button>
+</div>
+
+<div class="card" style="margin-bottom:16px;">
+  <label>{{ 'SELECT_TRIP' | translate }}
+    <select [value]="selectedTripId" (change)="selectTrip($any($event.target).value)">
+      <option *ngFor="let trip of trips" [value]="trip.id">{{ trip.destination }}</option>
+    </select>
+  </label>
+</div>
+
+<div class="grid grid-3">
+  <form class="card grid" [formGroup]="expenseForm" (ngSubmit)="addExpense()">
+    <h3>{{ 'EXPENSES' | translate }} - {{ total | currency:'BRL' }}</h3>
+    <label>{{ 'CATEGORY' | translate }}<input formControlName="category"></label>
+    <label>{{ 'AMOUNT' | translate }}<input type="number" min="0" formControlName="amount"></label>
+    <label>{{ 'DESCRIPTION' | translate }}<textarea rows="3" formControlName="description"></textarea></label>
+    <button type="submit">{{ 'ADD' | translate }}</button>
+  </form>
+
+  <form class="card grid" [formGroup]="itineraryForm" (ngSubmit)="addItinerary()">
+    <h3>{{ 'ITINERARY' | translate }}</h3>
+    <label>{{ 'DATE' | translate }}<input type="date" formControlName="activity_date"></label>
+    <label>{{ 'TIME' | translate }}<input type="time" formControlName="activity_time"></label>
+    <label>{{ 'DESCRIPTION' | translate }}<textarea rows="3" formControlName="description"></textarea></label>
+    <button type="submit">{{ 'ADD' | translate }}</button>
+  </form>
+
+  <form class="card grid" [formGroup]="reservationForm" (ngSubmit)="addReservation()">
+    <h3>{{ 'RESERVATIONS' | translate }}</h3>
+    <label>{{ 'TYPE' | translate }}
+      <select formControlName="type">
+        <option>Hotel</option>
+        <option>Transporte</option>
+        <option>Contacto</option>
+      </select>
+    </label>
+    <label>{{ 'DETAILS' | translate }}<textarea rows="5" formControlName="details"></textarea></label>
+    <button type="submit">{{ 'ADD' | translate }}</button>
+  </form>
+</div>
+
+<div class="grid grid-3" style="margin-top:16px;">
+  <div class="card">
+    <h3>{{ 'EXPENSES' | translate }}</h3>
+    <table class="table">
+      <tr *ngFor="let item of expenses"><td>{{ item.category }}</td><td>{{ item.amount | currency:'BRL' }}</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h3>{{ 'ITINERARY' | translate }}</h3>
+    <table class="table">
+      <tr *ngFor="let item of itinerary"><td>{{ item.activity_date }} {{ item.activity_time }}</td><td>{{ item.description }}</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h3>{{ 'RESERVATIONS' | translate }}</h3>
+    <table class="table">
+      <tr *ngFor="let item of reservations"><td>{{ item.type }}</td><td>{{ item.details }}</td></tr>
+    </table>
+  </div>
+</div>

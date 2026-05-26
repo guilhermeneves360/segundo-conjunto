@@ -1,0 +1,12 @@
+<div class="auth-page">
+  <div class="card auth-card grid">
+    <h2>{{ 'REGISTER' | translate }}</h2>
+    <form class="grid" [formGroup]="form" (ngSubmit)="submit()">
+      <label>{{ 'NAME' | translate }}<input formControlName="name"></label>
+      <label>{{ 'EMAIL' | translate }}<input formControlName="email"></label>
+      <label>{{ 'PASSWORD' | translate }}<input type="password" formControlName="password"></label>
+      <button type="submit">{{ 'SUBMIT' | translate }}</button>
+    </form>
+    <a routerLink="/login">{{ 'HAVE_ACCOUNT' | translate }}</a>
+  </div>
+</div>

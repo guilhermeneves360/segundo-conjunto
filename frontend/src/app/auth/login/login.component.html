@@ -1,0 +1,25 @@
+<div class="auth-page">
+  <div class="card auth-card grid">
+    <h2>{{ 'LOGIN' | translate }}</h2>
+    <form class="grid" [formGroup]="form" (ngSubmit)="submit()">
+      <label>{{ 'EMAIL' | translate }}<input formControlName="email"></label>
+      <label>{{ 'PASSWORD' | translate }}<input type="password" formControlName="password"></label>
+      <button type="submit">{{ 'SUBMIT' | translate }}</button>
+    </form>
+
+    <a routerLink="/register">{{ 'CREATE_ACCOUNT' | translate }}</a>
+
+    <div class="grid">
+      <h3>{{ 'PASSWORD_RECOVERY' | translate }}</h3>
+      <form class="grid" [formGroup]="forgotForm" (ngSubmit)="forgotPassword()">
+        <label>{{ 'EMAIL' | translate }}<input formControlName="email"></label>
+        <button type="submit" class="secondary">{{ 'GET_TOKEN' | translate }}</button>
+      </form>
+      <form class="grid" [formGroup]="resetForm" (ngSubmit)="resetPassword()">
+        <label>Token<input formControlName="token" [value]="resetToken"></label>
+        <label>{{ 'NEW_PASSWORD' | translate }}<input type="password" formControlName="password"></label>
+        <button type="submit" class="secondary">{{ 'RESET_PASSWORD' | translate }}</button>
+      </form>
+    </div>
+  </div>
+</div>

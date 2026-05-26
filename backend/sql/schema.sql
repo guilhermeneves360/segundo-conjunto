@@ -1,0 +1,59 @@
+-- TravelPlan Pro - MySQL schema for WAMP/phpMyAdmin
+
+CREATE DATABASE IF NOT EXISTS travelplan_pro CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE travelplan_pro;
+
+CREATE TABLE IF NOT EXISTS utilizadores (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nome VARCHAR(150) NOT NULL,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  senha VARCHAR(255) NOT NULL,
+  tipo ENUM('admin','user') NOT NULL DEFAULT 'user',
+  reset_token VARCHAR(255) DEFAULT NULL,
+  reset_expira_em DATETIME DEFAULT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS viagens (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  usuario_id INT NOT NULL,
+  destino VARCHAR(255) NOT NULL,
+  data_ida DATE NOT NULL,
+  data_volta DATE NOT NULL,
+  orcamento DECIMAL(12,2) DEFAULT 0,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (usuario_id) REFERENCES utilizadores(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS despesas (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  viagem_id INT NOT NULL,
+  categoria VARCHAR(100) NOT NULL,
+  valor DECIMAL(12,2) NOT NULL,
+  descricao TEXT,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (viagem_id) REFERENCES viagens(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS itinerarios (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  viagem_id INT NOT NULL,
+  data_atividade DATE NOT NULL,
+  hora TIME NOT NULL,
+  descricao TEXT NOT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (viagem_id) REFERENCES viagens(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS reservas (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  viagem_id INT NOT NULL,
+  tipo VARCHAR(50) NOT NULL,
+  detalhes TEXT,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (viagem_id) REFERENCES viagens(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO utilizadores (nome, email, senha, tipo)
+SELECT 'Admin', 'admin@local', '$2y$10$R6h4DgHRvoZvPdobS.ZxV.D0uLKor82KDLTMUwqWfS.UK3LmxRSzu', 'admin'
+WHERE NOT EXISTS (SELECT 1 FROM utilizadores WHERE email = 'admin@local');

@@ -1,0 +1,35 @@
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-mark">TP</span>
+      <div>
+        <h2>TravelPlan Pro</h2>
+        <small>{{ 'SMART_TRAVEL' | translate }}</small>
+      </div>
+    </div>
+    <nav>
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Dashboard</a>
+      <a routerLink="/trips" routerLinkActive="active">{{ 'TRIPS' | translate }}</a>
+      <a routerLink="/expenses" routerLinkActive="active">{{ 'EXPENSES' | translate }}</a>
+      <a *ngIf="auth.isAdmin()" routerLink="/admin" routerLinkActive="active">Admin</a>
+    </nav>
+  </aside>
+
+  <main>
+    <header class="navbar">
+      <div class="nav-title">
+        <strong>{{ 'WELCOME' | translate }}</strong>
+        <span>{{ auth.getUser()?.name || 'TravelPlan Pro' }}</span>
+      </div>
+      <div class="nav-actions">
+        <button type="button" class="icon-button" (click)="toggleTheme()">{{ darkMode ? 'L' : 'D' }}</button>
+        <button type="button" (click)="changeLanguage('pt')">PT</button>
+        <button type="button" (click)="changeLanguage('en')">EN</button>
+        <button type="button" *ngIf="auth.isAuthenticated()" (click)="auth.logout()">{{ 'LOGOUT' | translate }}</button>
+      </div>
+    </header>
+    <section class="page-content">
+      <router-outlet></router-outlet>
+    </section>
+  </main>
+</div>

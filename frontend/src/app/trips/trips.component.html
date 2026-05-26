@@ -1,0 +1,57 @@
+<div class="toolbar">
+  <div>
+    <h1>{{ 'TRIPS' | translate }}</h1>
+    <p class="muted">{{ 'TRIPS_SUBTITLE' | translate }}</p>
+  </div>
+</div>
+
+<div class="grid grid-2">
+  <form class="card grid" [formGroup]="form" (ngSubmit)="submit()">
+    <h3>{{ editingId ? ('EDIT_TRIP' | translate) : ('NEW_TRIP' | translate) }}</h3>
+    <label>{{ 'DESTINATION' | translate }}<input formControlName="destination"></label>
+    <div class="grid grid-2">
+      <label>{{ 'START_DATE' | translate }}<input type="date" formControlName="start_date"></label>
+      <label>{{ 'END_DATE' | translate }}<input type="date" formControlName="end_date"></label>
+    </div>
+    <label>{{ 'BUDGET' | translate }}<input type="number" min="0" formControlName="budget"></label>
+    <button type="submit">{{ 'SAVE' | translate }}</button>
+  </form>
+
+  <div class="card" *ngIf="weather">
+    <h3>{{ 'WEATHER' | translate }} - {{ weather.destination }}</h3>
+    <div style="display:flex;align-items:center;gap:14px;">
+      <img *ngIf="weather.icon" [src]="weather.icon" alt="">
+      <div>
+        <strong style="font-size:30px;">{{ weather.temperature }} C</strong>
+        <p class="muted">{{ weather.condition }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card" style="margin-top:16px;">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>{{ 'DESTINATION' | translate }}</th>
+        <th>{{ 'START_DATE' | translate }}</th>
+        <th>{{ 'END_DATE' | translate }}</th>
+        <th>{{ 'BUDGET' | translate }}</th>
+        <th>{{ 'ACTIONS' | translate }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let trip of trips">
+        <td>{{ trip.destination }}</td>
+        <td>{{ trip.start_date }}</td>
+        <td>{{ trip.end_date }}</td>
+        <td>{{ trip.budget | currency:'BRL' }}</td>
+        <td>
+          <button type="button" class="secondary" (click)="edit(trip)">{{ 'EDIT' | translate }}</button>
+          <button type="button" class="secondary" (click)="loadWeather(trip.destination)">{{ 'WEATHER' | translate }}</button>
+          <button type="button" class="danger" (click)="remove(trip.id)">{{ 'DELETE' | translate }}</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
